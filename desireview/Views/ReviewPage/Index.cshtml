@@ -1,0 +1,71 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Review";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/reviewpage")
+}
+
+<div data-ng-controller="reviewIndexController">
+    <div class="row" data-ng-repeat="i in data">
+        <div class="col-sm-4">
+            <img src="~/Images/{{i.image}}" class="img-thumbnail" />
+        </div>
+        <div class="col-sm-4 review-movie-details">
+            <h4>Bahubali</h4>
+            <p>{{i.cast}}</p>
+            <p>{{i.director}}</p>
+            <p>{{i.producer}}</p>
+
+        </div>
+        <div class="col-sm-4 details ratingclass">
+            <p><span>Desi Review's Rating</span></p>
+            <div class="desi">
+                <span ng-class="{spantrue : i.desireviewrating >= 5}">☆</span>
+                <span ng-class="{spantrue : i.desireviewrating >= 4}">☆</span>
+                <span ng-class="{spantrue : i.desireviewrating >= 3}">☆</span>
+                <span ng-class="{spantrue : i.desireviewrating >= 2}">☆</span>
+                <span ng-class="{spantrue : i.desireviewrating >= 1}">☆</span>
+            </div>
+            <p><span>User Rating</span>&emsp;(Add Your Review Here)</p>
+            <div class="rating">
+                <span ng-class="{spantrue : i.userrating >= 5}">☆</span>
+                <span ng-class="{spantrue : i.userrating >= 4}">☆</span>
+                <span ng-class="{spantrue : i.userrating >= 3}">☆</span>
+                <span ng-class="{spantrue : i.userrating >= 2}">☆</span>
+                <span ng-class="{spantrue : i.userrating >= 1}">☆</span>
+            </div>
+        </div>
+    </div>
+    <div class="row" data-ng-repeat="i in reviewdata">
+        <div class="col-sm-12 review-body">
+            <input type="checkbox" class="read-more-state" id="post-1" />
+            <h4>{{i.title}}</h4>
+            <p class="read-more-wrap">
+                {{i.introduction}}
+                <span class="read-more-target">{{i.body}}</span>
+            </p>
+            <label for="post-1" class="read-more-trigger"></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 subheading">
+            <h2>Related Videos</h2>
+        </div>
+    </div>
+    <div class="row scrollingcontent" data-ng-repeat="i in reviewdata">
+        <div class="col-xs-6 col-sm-3" data-ng-repeat="j in i.vreviews"><img class="img-thumbnail" src="~/Images/bahu.jpg" /></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 subheading">
+            <h2>Related Images</h2>
+        </div>
+    </div>
+    <div class="row scrollingcontent" data-ng-repeat="i in reviewdata">
+        <div class="col-xs-6 col-sm-3" data-ng-repeat="j in i.vreviews"><img class="img-thumbnail" src="~/Images/bbj.jpg" /></div>
+    </div>
+     
+</div>
+
+

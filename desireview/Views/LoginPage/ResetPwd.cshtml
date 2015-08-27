@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts {
+    <script src="~/AngularJS/reset-page.js" type="text/javascript"></script>
+}
+
+<div ng-controller="resetPageController">
+    <div class="form-controls">
+        <form ng-submit="sendresetlink()">
+            <input type="text" placeholder="Email Address" class="form-control" /><br />
+            <button class="btn btn-success" type="submit">Send Reset Link</button>
+        </form>
+    </div>
+</div>
