@@ -26,27 +26,27 @@
     <div class="row movies">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" ng-repeat="i in data">
             <div class="card" onclick="window.location.href='@Url.Action("Index","ReviewPage")'">
-                <img ng-src="~/Images/{{i.image}}" class="my-img-thumbnail" />
+                <img ng-src="~/Images/{{i.ImageName}}" class="my-img-thumbnail" />
                 <div class="details">
-                    <h4>{{i.title}}</h4>
-                    <p><span>Cast</span>: {{i.cast}}</p>
+                    <h4>{{i.Title}}</h4>
+                    <p><span>Cast</span>: {{i.Cast}}</p>
                     <hr />
                     <div class="details ratingclass">
                         <p><span>Desi Review's Rating</span></p>
                         <div class="desi">
-                            <span ng-class="{spantrue : i.desireviewrating >= 5}">☆</span>
-                            <span ng-class="{spantrue : i.desireviewrating >= 4}">☆</span>
-                            <span ng-class="{spantrue : i.desireviewrating >= 3}">☆</span>
-                            <span ng-class="{spantrue : i.desireviewrating >= 2}">☆</span>
-                            <span ng-class="{spantrue : i.desireviewrating >= 1}">☆</span>
+                            <span ng-class="{spantrue : i.DesiReviewRating >= 5}">☆</span>
+                            <span ng-class="{spantrue : i.DesiReviewRating >= 4}">☆</span>
+                            <span ng-class="{spantrue : i.DesiReviewRating >= 3}">☆</span>
+                            <span ng-class="{spantrue : i.DesiReviewRating >= 2}">☆</span>
+                            <span ng-class="{spantrue : i.DesiReviewRating >= 1}">☆</span>
                         </div>
                         <p><span>User Rating</span>&emsp;(Add Your Review Here)</p>
                         <div class="rating">
-                            <span ng-class="{spantrue : i.userrating >= 5}">☆</span>
-                            <span ng-class="{spantrue : i.userrating >= 4}">☆</span>
-                            <span ng-class="{spantrue : i.userrating >= 3}">☆</span>
-                            <span ng-class="{spantrue : i.userrating >= 2}">☆</span>
-                            <span ng-class="{spantrue : i.userrating >= 1}">☆</span>
+                            <span ng-class="{spantrue : i.AverageRating >= 5}">☆</span>
+                            <span ng-class="{spantrue : i.AverageRating >= 4}">☆</span>
+                            <span ng-class="{spantrue : i.AverageRating >= 3}">☆</span>
+                            <span ng-class="{spantrue : i.AverageRating >= 2}">☆</span>
+                            <span ng-class="{spantrue : i.AverageRating >= 1}">☆</span>
                         </div>
                     </div>
                 </div>

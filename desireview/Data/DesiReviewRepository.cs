@@ -24,6 +24,19 @@ namespace desireview.Data
             return _ctx.Movies.OrderByDescending(x => x.ReleaseDate);
         }
 
+        public bool AddMovie(Movie movieToAdd)
+        {
+            try
+            {
+                _ctx.Movies.Add(movieToAdd);
+                return _ctx.SaveChanges() > 0;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
+        } 
+
         public bool IsUsernameAvailable(string userName)
         {
             return !(_ctx.Users.Where(x => x.UserName == userName).Count() > 0);

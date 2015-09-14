@@ -19,5 +19,6 @@ namespace desireview.Data
         bool SendPasswordResetLink(User existinguser);
 
         bool UpdatePassword(PasswordUpdate newPassword);
+        bool AddMovie(Movie movieToAdd);
     }
 }

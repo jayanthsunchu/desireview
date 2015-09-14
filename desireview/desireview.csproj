@@ -209,8 +209,10 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MoviePageAdminController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
+    <Compile Include="Controllers\ReviewPageAdminController.cs" />
     <Compile Include="Controllers\ReviewPageController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
+    <Compile Include="Controllers\UserRatingsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Data\Comment.cs" />
     <Compile Include="Data\DesiReviewContext.cs" />
@@ -221,6 +223,7 @@
     <Compile Include="Data\Review.cs" />
     <Compile Include="Data\User.cs" />
     <Compile Include="Data\UserPasswordRequest.cs" />
+    <Compile Include="Data\UserRating.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1098,6 +1101,7 @@
     <Content Include="Views\LoginPage\ResetPwd.cshtml" />
     <Content Include="Views\LoginPage\PasswordResetLink.cshtml" />
     <Content Include="Views\MoviePageAdmin\Index.cshtml" />
+    <Content Include="Views\ReviewPageAdmin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

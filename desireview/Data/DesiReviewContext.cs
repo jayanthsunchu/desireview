@@ -21,5 +21,7 @@ namespace desireview.Data
         public DbSet<User> Users { get; set; }
 
         public DbSet<UserPasswordRequest> UserPasswordRequests { get; set; }
+
+        public DbSet<UserRating> UserRatings { get; set; }
     }
 }

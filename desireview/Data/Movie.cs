@@ -25,6 +25,7 @@ namespace desireview.Data
         public int Dislikes { get; set; }
         public string ImageName { get; set; }
         public string ImageExtension { get; set; }
+        public string MovieLanguage { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
     }

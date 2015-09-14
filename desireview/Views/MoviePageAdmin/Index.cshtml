@@ -1,21 +1,29 @@
-﻿@{
+﻿@model desireview.Data.Movie
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 @section Scripts 
     {
     
     }
-<form>
+<form action="" method="post" enctype="multipart/form-data">
     <div class="form-controls">
-        <input type="text" class="form-control" placeholder="Title" /><br />
-        <input type="text" class="form-control" placeholder="Cast" /><br />
-        <input type="text" class="form-control" placeholder="Director" /><br />
-        <input type="text" class="form-control" placeholder="Producer" /><br />
-        <input type="text" class="form-control" placeholder="Rating" /><br />
-        <input type="text" class="form-control" placeholder="Release Date" /><br />
-        <input type="text" class="form-control" placeholder="Image Name" /><br />
-        <input type="text" class="form-control" placeholder="Image Extension" /><br />
+        @Html.TextBoxFor(x => x.Title, new { @placeholder="Title", @class = "form-control" })
+        @Html.TextBoxFor(x => x.Cast, new { @placeholder = "Cast", @class = "form-control" })
+        @Html.TextBoxFor(x => x.Director, new { @placeholder = "Director", @class = "form-control" })
+        @Html.TextBoxFor(x => x.Producer, new { @placeholder = "Producer", @class = "form-control" })
+        @Html.TextBoxFor(x => x.DesiReviewRating, new { @placeholder = "Desi Review Rating", @class = "form-control" })
+        @Html.TextBoxFor(x => x.AverageRating, new { @placeholder = "User Rating", @class = "form-control" })
+        @Html.TextBoxFor(x => x.ReleaseDate, new { @placeholder = "Release Date", @class = "form-control" })
+        @Html.TextBoxFor(x => x.MovieLanguage, new { @placeholder = "Language", @class = "form-control" })
+        <span class="btn btn-success btn-file form-control">
+            <input type="file" name="file" id="file" >
+        </span>
+        <br />
+        <br />
         <button type="submit" class="btn btn-success">Add Movie</button>
     </div>
 </form>

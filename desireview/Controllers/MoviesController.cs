@@ -14,9 +14,15 @@ namespace desireview.Controllers
         public MoviesController(IDesiReviewRepository repo) {
             _repo = repo;
         }
-
+        [HttpGet]
         public IEnumerable<Movie> Get() {
             return _repo.GetMovies();
+        }
+
+        [HttpPost]
+        public bool AddMovie(Movie movieToAdd)
+        {
+            return _repo.AddMovie(movieToAdd);
         }
     }
 }

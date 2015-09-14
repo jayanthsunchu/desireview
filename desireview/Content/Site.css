@@ -126,6 +126,8 @@ textarea {
     
 }
 
+.form-controls > span{margin: 0;}
+
 .card:after {
     position: absolute;
     font-size: .9rem;
