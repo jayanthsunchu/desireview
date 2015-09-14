@@ -114,6 +114,11 @@ textarea {
     }
 }
 
+@media(max-width: 470px){
+    .makedefault{
+        margin-top: 10px;
+    }
+}
 
 
 .form-controls {
@@ -124,6 +129,11 @@ textarea {
     margin: 0 auto;
     margin-top: 20px;
     
+}
+
+.form-controls-label{
+    max-width: 250px;
+    color: #407F40;
 }
 
 .form-controls > span{margin: 0;}

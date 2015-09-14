@@ -24,7 +24,7 @@ namespace desireview
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
-                    "~/Scripts/angular.min.js"));
+                    "~/Scripts/angular.min.js", "~/Scripts/angular-cookies.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/homepage").Include(
                     "~/AngularJS/home-index.js"));

@@ -10,6 +10,8 @@ namespace desireview.Data
     {
         IQueryable<Movie> GetMovies();
 
+        IQueryable<Movie> GetMoviesByLanguage(string Language);
+
         bool IsUsernameAvailable(string userName);
 
         User RegisterNewUser(User newUser);

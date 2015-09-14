@@ -9,20 +9,15 @@
 
 <div data-ng-controller="homeIndexController">
     <div class="row search">
-        <select class="form-control">
-            <option class="selected disabled">Language(All)</option>
-            <option>Hindi</option>
-            <option>Telugu</option>
-            <option>Tamil</option>
+        <label class="form-controls-label">Select Language:</label>
+        <select class="form-control" ng-options="option for option in listOfOptions"
+                ng-model="selectedItem"
+                ng-change="selectedItemChanged()"
+                ng-init="selectedItem = selectedItem || listOfOptions[0]">
         </select>
+        <button ng-click="makeDefaultOption()" class="btn btn-success makedefault">Make This Default</button>
     </div>
-    <div class="row search">
-
-        <div class="wrapper">
-            <input class="form-control" placeholder="Search" type="text" />
-            <button class="btn btn-sm btn-success">GO</button>
-        </div>
-    </div>
+    
     <div class="row movies">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" ng-repeat="i in data">
             <div class="card" onclick="window.location.href='@Url.Action("Index","ReviewPage")'">

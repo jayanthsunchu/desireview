@@ -19,6 +19,12 @@ namespace desireview.Controllers
             return _repo.GetMovies();
         }
 
+        [HttpGet]
+        public IEnumerable<Movie> GetByLanguage(string id)
+        {
+            return _repo.GetMoviesByLanguage(id);
+        }
+
         [HttpPost]
         public bool AddMovie(Movie movieToAdd)
         {

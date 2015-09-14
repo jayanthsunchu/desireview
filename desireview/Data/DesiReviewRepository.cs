@@ -16,8 +16,15 @@ namespace desireview.Data
     class DesiReviewRepository : IDesiReviewRepository
     {
         DesiReviewContext _ctx;
-        public DesiReviewRepository(DesiReviewContext ctx) {
+        public DesiReviewRepository(DesiReviewContext ctx)
+        {
             _ctx = ctx;
+        }
+
+        public IQueryable<Movie> GetMoviesByLanguage(string Language)
+        {
+            return Language.ToLower() != "all" ?_ctx.Movies.Where(x => x.MovieLanguage.ToLower() == Language.ToLower()).OrderByDescending(x => x.ReleaseDate)
+                : _ctx.Movies.OrderByDescending(x => x.ReleaseDate);
         }
         public IQueryable<Movie> GetMovies()
         {
