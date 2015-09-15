@@ -1,0 +1,43 @@
+﻿<div>
+    <div class="row search">
+        <label class="form-controls-label">Select Language:</label>
+        <select class="form-control" ng-options="option for option in listOfOptions"
+                ng-model="selectedItem"
+                ng-change="selectedItemChanged()"
+                ng-init="selectedItem = selectedItem || listOfOptions[0]"></select>
+        <button ng-click="makeDefaultOption()" class="btn btn-success makedefault">Make This Default</button>
+    </div>
+    <div class="progress progress-striped active" data-ng-show="isBusy">
+        <div class="progress-bar progress-bar-success bar"></div>
+    </div>
+    <div class="row movies">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" ng-repeat="i in data">
+            <div class="card" ng-click="showReviewPage(i)">
+                <img ng-src="../Images/{{i.ImageName}}" class="my-img-thumbnail" />
+                <div class="details">
+                    <h4>{{i.Title}}</h4>
+                    <p><span>Cast</span>: {{i.Cast}}</p>
+                    <hr />
+                    <div class="details ratingclass">
+                        <p><span>Desi Review's Rating</span></p>
+                        <div class="desi">
+                            <span ng-class="{spantrue : i.DesiReviewRating >= 5}">☆</span>
+                            <span ng-class="{spantrue : i.DesiReviewRating >= 4}">☆</span>
+                            <span ng-class="{spantrue : i.DesiReviewRating >= 3}">☆</span>
+                            <span ng-class="{spantrue : i.DesiReviewRating >= 2}">☆</span>
+                            <span ng-class="{spantrue : i.DesiReviewRating >= 1}">☆</span>
+                        </div>
+                        <p><span>User Rating</span>&emsp;(Add Your Review Here)</p>
+                        <div class="rating">
+                            <span ng-class="{spantrue : i.AverageRating >= 5}">☆</span>
+                            <span ng-class="{spantrue : i.AverageRating >= 4}">☆</span>
+                            <span ng-class="{spantrue : i.AverageRating >= 3}">☆</span>
+                            <span ng-class="{spantrue : i.AverageRating >= 2}">☆</span>
+                            <span ng-class="{spantrue : i.AverageRating >= 1}">☆</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
