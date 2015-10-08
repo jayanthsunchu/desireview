@@ -12,14 +12,14 @@
     </div>
     <div class="row movies">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" ng-repeat="i in data">
-            <div class="card" ng-click="showReviewPage(i)">
+            <div class="card" ng-click="go('/moviereview')">
                 <img ng-src="../Images/{{i.ImageName}}" class="my-img-thumbnail" />
                 <div class="details">
                     <h4>{{i.Title}}</h4>
                     <p><span>Cast</span>: {{i.Cast}}</p>
                     <hr />
                     <div class="details ratingclass">
-                        <p><span>Desi Review's Rating</span></p>
+                        <p><span>1st Show's Rating</span></p>
                         <div class="desi">
                             <span ng-class="{spantrue : i.DesiReviewRating >= 5}">☆</span>
                             <span ng-class="{spantrue : i.DesiReviewRating >= 4}">☆</span>
@@ -27,7 +27,7 @@
                             <span ng-class="{spantrue : i.DesiReviewRating >= 2}">☆</span>
                             <span ng-class="{spantrue : i.DesiReviewRating >= 1}">☆</span>
                         </div>
-                        <p><span>User Rating</span>&emsp;(Add Your Review Here)</p>
+                        <p><span>User Rating</span>&emsp;(Add Your Rating Here)</p>
                         <div class="rating">
                             <span ng-class="{spantrue : i.AverageRating >= 5}">☆</span>
                             <span ng-class="{spantrue : i.AverageRating >= 4}">☆</span>

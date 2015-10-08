@@ -24,4 +24,3 @@
 
 reviewIndexController.$inject = ['$scope'];
 angular.module('desireview', []).controller("reviewIndexController", reviewIndexController);
-

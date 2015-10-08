@@ -246,6 +246,7 @@
     <Content Include="AngularJS\reset-page.js" />
     <Content Include="AngularJS\review-page.js" />
     <Content Include="AngularTemplates\movieView.html" />
+    <Content Include="AngularTemplates\reviewView.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\reviewpage.css" />

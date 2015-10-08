@@ -9,6 +9,11 @@
     white-space: normal;
 }
 
+.addreview {
+    text-align: right;
+    line-height: 30px;
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
@@ -203,6 +208,10 @@ textarea {
     white-space: nowrap;
     overflow: hidden;
 }
+.reviewcontent {
+    margin-top: 20px;
+}
+.subheading{margin-top: 20px;}
 .subheading > h2{
     font-family: LogoFont;
     font-size: 30px;
