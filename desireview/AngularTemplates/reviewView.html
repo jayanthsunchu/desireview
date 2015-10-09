@@ -1,31 +1,31 @@
 ﻿<div>
-    <div class="row" data-ng-repeat="i in data">
+    <div class="row" data-ng-repeat="i in data.selectedmovie">
         <div class="col-sm-4">
-            <img src="../Images/{{i.image}}" class="img-thumbnail" />
+            <img ng-src="../Images/{{i.ImageName}}" class="img-thumbnail" />
         </div>
         <div class="col-sm-4 review-movie-details">
-            <h4>Bahubali</h4>
-            <p>{{i.cast}}</p>
-            <p>{{i.director}}</p>
-            <p>{{i.producer}}</p>
+            <h4>{{i.Title}}</h4>
+            <p>{{i.Cast}}</p>
+            <p>{{i.Director}}</p>
+            <p>{{i.Producer}}</p>
 
         </div>
         <div class="col-sm-4 details ratingclass">
             <p><span>1st Show's Rating</span></p>
             <div class="desi">
-                <span ng-class="{spantrue : i.desireviewrating >= 5}">☆</span>
-                <span ng-class="{spantrue : i.desireviewrating >= 4}">☆</span>
-                <span ng-class="{spantrue : i.desireviewrating >= 3}">☆</span>
-                <span ng-class="{spantrue : i.desireviewrating >= 2}">☆</span>
-                <span ng-class="{spantrue : i.desireviewrating >= 1}">☆</span>
+                <span ng-class="{spantrue : i.DesiReviewRating >= 5}">☆</span>
+                <span ng-class="{spantrue : i.DesiReviewRating >= 4}">☆</span>
+                <span ng-class="{spantrue : i.DesiReviewRating >= 3}">☆</span>
+                <span ng-class="{spantrue : i.DesiReviewRating >= 2}">☆</span>
+                <span ng-class="{spantrue : i.DesiReviewRating >= 1}">☆</span>
             </div>
             <p><span>User Rating</span>&emsp;(Add Your Rating Here)</p>
             <div class="rating">
-                <span ng-class="{spantrue : i.userrating >= 5}">☆</span>
-                <span ng-class="{spantrue : i.userrating >= 4}">☆</span>
-                <span ng-class="{spantrue : i.userrating >= 3}">☆</span>
-                <span ng-class="{spantrue : i.userrating >= 2}">☆</span>
-                <span ng-class="{spantrue : i.userrating >= 1}">☆</span>
+                <span ng-class="{spantrue : i.AverageRating >= 5}">☆</span>
+                <span ng-class="{spantrue : i.AverageRating >= 4}">☆</span>
+                <span ng-class="{spantrue : i.AverageRating >= 3}">☆</span>
+                <span ng-class="{spantrue : i.AverageRating >= 2}">☆</span>
+                <span ng-class="{spantrue : i.AverageRating >= 1}">☆</span>
             </div>
         </div>
     </div>
