@@ -1,26 +1,28 @@
 ﻿var module = angular.module('desireview', ['ngCookies', 'ngRoute']);
-module.controller('homeIndexController', ['$scope', '$http', '$cookies', '$location', 'dataService', function($scope, $http, $cookies, $location, dataService) {
-    $scope.isBusy = true;
+module.controller('homeIndexController', ['$scope', '$http', '$cookies', '$location', 'dataService', function ($scope, $http, $cookies, $location, dataService) {
+    $scope.isBusy = false;
     $scope.data = dataService;
-    
-    
-    dataService.getMovies().then(function () {
-        var defaultOption = $cookies.get("defaultlanguage");
-        if (defaultOption != null) {
-            $scope.selectedItem = defaultOption;
-            dataService.selectedmovies = dataService.movies.filter(function (movie) {
-                if (defaultOption === "All")
-                    return true;
-                else
-                    return movie.MovieLanguage === defaultOption;
-            });
-        }
-    }).then(function () {
 
-    }).then(function () {
-        $scope.isBusy = false;
-    })
-    
+    if (dataService.isReady() == false) {
+        $scope.isBusy = true;
+        dataService.getMovies("").then(function () {
+            var defaultOption = $cookies.get("defaultlanguage");
+            if (defaultOption != null) {
+                $scope.selectedItem = defaultOption;
+                dataService.selectedmovies = dataService.movies.filter(function (movie) {
+                    if (defaultOption === "All")
+                        return true;
+                    else
+                        return movie.MovieLanguage === defaultOption;
+                });
+            }
+        }).then(function () {
+
+        }).then(function () {
+            $scope.isBusy = false;
+        })
+    }
+
     $scope.showReviewPage = function (data) {
         //alert(data);
     };
@@ -60,7 +62,7 @@ if (!Array.prototype.filter) {
         var thisp = arguments[1];
         for (var i = 0; i < len; i++) {
             if (i in this) {
-                var val = this[i]; 
+                var val = this[i];
                 if (fun.call(thisp, val, i, this))
                     res.push(val);
             }
@@ -69,40 +71,62 @@ if (!Array.prototype.filter) {
     };
 }
 
-module.controller('reviewIndexController', ['$scope', 'dataService', '$routeParams', function ($scope, dataService, $routeParams) {
-    alert($routeParams.movieTitle);
+module.controller('reviewIndexController', ['$scope', 'dataService', '$routeParams', '$cookies', function ($scope, dataService, $routeParams, $cookies) {
     $scope.name = "Review Page";
-    if (dataService == null) {
-        
+    if (dataService.isReady()) {
+        $scope.data = dataService;
+        dataService.getReviewById(dataService.selectedmovie.filter(function (movie) { return true; })[0].Id)
+    .then(function () {
+    }).
+    then(function () { });
+
     }
-    $scope.data = dataService;
+    else {
+        $scope.data = dataService;
+        if ($routeParams.movieTitle != null || $routeParams.movieTitle != "") {
+            dataService.getMovies($routeParams.movieTitle).then(function () {
+                dataService.getReviewById(dataService.selectedmovie.filter(function (movie) { return true; })[0].Id)
+                .then(function () {
+                }).
+                then(function () { });
 
-    $scope.reviewdata = [
-        {
-            title: "I call it a great Ripoff! Most of us would call it a Blockbuster!",
-            introduction: "Introduction content. Lorem epsum. Chedsfw sdifjsifs dsfisjdf. Lorem epsuem.. This Review has also ksjdi dsfjiwsjd fsm sidfjsm sid fjsdf  isdjflsdfj isdf jsi fsjl jsldifjd sljfidsljf sdfjlsdifj sldfj dslfijdslfdsjfdslifj dslifj sdlfjds lfdslfjdslfjdslifjdslifjdsljfldsijfsdfdsf dsf dsljfdsljfdsljfdsfijdsf sdlf jdslif jdslfj dslfjdslfj dslifj dslfj dslif. dslfijdslfdsjfdslifj dslifj sdlfjds lfdslfjdslfjdslifjdslifjdsljfldsijfsdfdsf dsf dsljfdsljfdsljfdsfijdsf sdlf jdslif jdslfj dslfjdslfj dslifj dslfj dslif jdsljf dsljf ldsjf ldsj flds fjldsjfldsijfdsljfldsijfldsijf. ksjdi dsfjiwsjd fsm sidfjsm sid .",
-            body: "Lorem epsuem.. This Review has also ksjdi dsfjiwsjd fsm sidfjsm sid fjsdf  isdjflsdfj isdf jsi fsjl jsldifjd sljfidsljf sdfjlsdifj sldfj dslfijdslfdsjfdslifj dslifj sdlfjds lfdslfjdslfjdslifjdslifjdsljfldsijfsdfdsf dsf dsljfdsljfdsljfdsfijdsf sdlf jdslif jdslfj dslfjdslfj dslifj dslfj dslif jdsljf dsljf ldsjf ldsj flds fjldsjfldsijfdsljfldsijfldsijf. ksjdi dsfjiwsjd fsm sidfjsm sid fjsdf  isdjflsdfj isdf jsi fsjl jsldifjd sljfidsljf sdfjlsdifj sldfj dslfijdslfdsjfdslifj dslifj sdlfjds lfdslfjdslfjdslifjdslifjdsljfldsijfsdfdsf dsf dsljfdsljfdsljfdsfijdsf sdlf jdslif jdslfj dslfjdslfj dslifj dslfj dslif jdsljf dsljf ldsjf ldsj flds fjldsjfldsijfdsljfldsijfldsijf. ksjdi dsfjiwsjd fsm sidfjsm sid fjsdf  isdjflsdfj isdf jsi fsjl jsldifjd sljfidsljf sdfjlsdifj sldfj dslfijdslfdsjfdslifj dslifj sdlfjds lfdslfjdslfjdslifjdslifjdsljfldsijfsdfdsf dsf dsljfdsljfdsljfdsfijdsf sdlf jdslif jdslfj dslfjdslfj. ksjdi dsfjiwsjd fsm sidfjsm sid fjsdf  isdjflsdfj isdf jsi fsjl jsldifjd sljfidsljf sdfjlsdifj sldfj dslfijdslfdsjfdslifj dslifj sdlfjds lfdslfjdslfjdslifjdslifjdsljfldsijfsdfdsf dsf dsljfdsljfdsljfdsfijdsf sdlf jdslif jdslfj dslfjdslfj dslifj dslfj dslif jdsljf dsljf ldsjf ldsj flds fjldsjfldsijfdsljfldsijfldsijf. ksjdi dsfjiwsjd fsm sidfjsm sid fjsdf  isdjflsdfj isdf jsi fsjl jsldifjd sljfidsljf sdfjlsdifj sldfj dslfijdslfdsjfdslifj dslifj sdlfjds lfdslfjdslfjdslifjdslifjdsljfldsijfsdfdsf dsf dsljfdsljfdsljfdsfijdsf sdlf jdslif jdslfj dslfjdslfj dslifj dslfj dslif jdsljf dsljf ldsjf ldsj flds fjldsjfldsijfdsljfldsijfldsijf.",
-            vreviews: [{ title: "Check" }, { title: "Check 2" }, { title: "Check 2" }, { title: "Check 2" }]
-        },
-    ];
+            }).then(function () { });
+        }
 
+    }
 }]);
-
-
-
 
 module.factory("dataService", function ($http, $q) {
     var _movies = [];
     var _selectedmovies = [];
     var _selectedmovie = [];
+    var _reviewContent = [];
 
-    var _getMovies = function () {
+    var _IsInit = false;
+    var _IsReady = function () {
+        return _IsInit;
+    };
+
+    var _getReviewById = function (movieId) {
+        var deferred = $q.defer();
+        $http.get("/api/reviews/getreviewbyid?movieId=" + movieId).then(function (result) {
+            angular.copy(result.data, _reviewContent);
+            deferred.resolve();
+        }, function () {
+            deferred.reject();
+        });
+        return deferred.promise;
+    };
+    var _getMovies = function (selectedReview) {
         var deferred = $q.defer();
         $http.get("/api/movies/get").then(function (result) {
             angular.copy(result.data, _movies);
             angular.copy(result.data, _selectedmovies);
-            angular.copy(_selectedmovies.filter(function (movie) { return movie.Title === _selectedmovies[0].Title; }), _selectedmovie);
-
+            if (selectedReview != "")
+                angular.copy(_selectedmovies.filter(function (movie) { return movie.Title === selectedReview; }), _selectedmovie);
+            else
+                angular.copy(_selectedmovies.filter(function (movie) { return movie.Title === _selectedmovies[0].Title; }), _selectedmovie);
+            _IsInit = true;
             deferred.resolve();
         }, function () {
             deferred.reject();
@@ -114,7 +138,10 @@ module.factory("dataService", function ($http, $q) {
         movies: _movies,
         getMovies: _getMovies,
         selectedmovies: _selectedmovies,
-        selectedmovie: _selectedmovie
+        selectedmovie: _selectedmovie,
+        isReady: _IsReady,
+        getReviewById: _getReviewById,
+        reviewContent: _reviewContent
     };
 
 });
@@ -123,12 +150,11 @@ module.config(function ($routeProvider) {
     $routeProvider.when("/", {
         controller: "homeIndexController",
         templateUrl: "/AngularTemplates/movieView.html",
-    });
-    $routeProvider.when("/moviereview/:movieTitle", {
-       controller: "reviewIndexController",
+    })
+    .when("/moviereview/:movieTitle", {
+        controller: "reviewIndexController",
         templateUrl: "/AngularTemplates/reviewView.html"
-    });
-
-    $routeProvider.otherwise({ redirectTo: "/" });
+    })
+    .otherwise({ redirectTo: "/" });
 });
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using desireview.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,5 +10,20 @@ namespace desireview.Controllers
 {
     public class ReviewsController : ApiController
     {
+        private IDesiReviewRepository _repo;
+
+        public ReviewsController(IDesiReviewRepository repo) {
+            _repo = repo;
+        }
+
+        [HttpGet]
+        public Review GetReviewById(int movieId) {
+            return _repo.GetReviewById(movieId);
+        }
+
+        [HttpPost]
+        public bool AddReview(Review movieReview) {
+            return _repo.AddReview(movieReview);
+        }
     }
 }

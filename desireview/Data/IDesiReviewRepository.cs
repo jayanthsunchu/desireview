@@ -8,6 +8,8 @@ namespace desireview.Data
 {
     public interface IDesiReviewRepository
     {
+        Review GetReviewById(int movieId);
+        bool AddReview(Review review);
         IQueryable<Movie> GetMovies();
 
         IQueryable<Movie> GetMoviesByLanguage(string Language);

@@ -43,13 +43,13 @@
     <div class="row well" style="text-align: center;">
         <h5>Coming Soon</h>
     </div>
-    <div class="row reviewcontent" data-ng-repeat="i in reviewdata">
+    <div class="row reviewcontent">
         <div class="col-sm-12 review-body">
             <input type="checkbox" class="read-more-state" id="post-1" />
-            <h4>{{i.title}}</h4>
+            <h4>{{data.reviewContent.ReviewTitle}}</h4>
             <p class="read-more-wrap">
-                {{i.introduction}}
-                <span class="read-more-target">{{i.body}}</span>
+                {{data.reviewContent.ReviewTitle}}
+                <span class="read-more-target">{{data.reviewContent.ReviewContent}}</span>
             </p>
             <label for="post-1" class="read-more-trigger"></label>
         </div>

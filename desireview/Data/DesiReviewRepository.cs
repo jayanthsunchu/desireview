@@ -16,6 +16,35 @@ namespace desireview.Data
     class DesiReviewRepository : IDesiReviewRepository
     {
         DesiReviewContext _ctx;
+
+        public Review GetReviewById(int movieId)
+        {
+            try
+            {
+                return _ctx.Reviews.Where(x => x.MovieId == movieId).Single();
+            }
+            catch (InvalidOperationException)
+            {
+                var res = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("Movie Review not found.")),
+                    ReasonPhrase = "Movie Review not found."
+                };
+                throw new HttpResponseException(res);
+            }
+        }
+        public bool AddReview(Review review)
+        {
+            try
+            {
+                _ctx.Reviews.Add(review);
+                return _ctx.SaveChanges() > 0;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
+        }
         public DesiReviewRepository(DesiReviewContext ctx)
         {
             _ctx = ctx;
