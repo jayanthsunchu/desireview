@@ -71,6 +71,26 @@ if (!Array.prototype.filter) {
     };
 }
 
+module.controller('loginController',['$scope', function ($scope) {
+    $scope.existingUser = {};
+    $scope.newUser = {};
+    $scope.rememberme = 'NO';
+                           
+    $scope.checkUserName = function () {
+        alert($scope.existingUser.username);
+    };
+    $scope.logIn = function () {
+        alert($scope.rememberme);
+    };
+
+    $scope.registerUser = function () {
+
+    };
+}]);
+
+module.controller('contactController', function () {
+});
+
 module.controller('reviewIndexController', ['$scope', 'dataService', '$routeParams', '$cookies', function ($scope, dataService, $routeParams, $cookies) {
     $scope.name = "Review Page";
     if (dataService.isReady()) {
@@ -154,6 +174,14 @@ module.config(function ($routeProvider) {
     .when("/moviereview/:movieTitle", {
         controller: "reviewIndexController",
         templateUrl: "/AngularTemplates/reviewView.html"
+    })
+    .when("/loginorregister", {
+        controller: "loginController",
+        templateUrl: "/AngularTemplates/loginView.html"
+    })
+    .when("/contact", {
+        controller: "contactController",
+        templateUrl: "/AngularTemplates/contactView.html"
     })
     .otherwise({ redirectTo: "/" });
 });

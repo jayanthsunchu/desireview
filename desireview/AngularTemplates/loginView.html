@@ -1,0 +1,38 @@
+﻿<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-controls">
+                <form ng-submit="logIn()" name="loginform" novalidate>
+                    <input type="text" ng-model="existingUser.username"
+                           required placeholder="User Name" class="form-control" />
+                    <span class="error" ng-show="existingUser.username.$error.required">*</span>
+                    <br />
+                    <input type="text" placeholder="Password" ng-model="existingUser.password" required class="form-control" />
+                    <span class="error"  ng-show="existingUser.password.$error.required">*</span><br />
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="rememberme"
+                                   ng-true-value="'YES'" ng-false-value="'NO'"> Remember Me
+                        </label>
+                    </div>
+                    <input type="submit" class="btn btn-success" ng-disabled="loginform.$invalid" value="Login" />
+                </form>
+                <br />
+                <a ng-click="" class="forgot">Forgot Password?</a>
+            </div>
+        </div>
+        <div class="col-sm-6 login-border">
+            <div class="form-controls">
+                <form ng-submit="logIn()">
+                    <input type="text" placeholder="User Name" class="form-control" /><br />
+                    <input type="text" placeholder="Password" class="form-control" /><br />
+                    <input type="text" placeholder="Confirm Password" class="form-control" /><br />
+                    <input type="text" placeholder="Email" class="form-control" /><br />
+                    <input type="submit" class="btn btn-success" value="Register" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>

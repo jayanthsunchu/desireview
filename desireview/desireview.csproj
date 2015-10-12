@@ -245,6 +245,8 @@
     <Content Include="AngularJS\password-link-page.js" />
     <Content Include="AngularJS\reset-page.js" />
     <Content Include="AngularJS\review-page.js" />
+    <Content Include="AngularTemplates\contactView.html" />
+    <Content Include="AngularTemplates\loginView.html" />
     <Content Include="AngularTemplates\movieView.html" />
     <Content Include="AngularTemplates\reviewView.html" />
     <Content Include="Content\bootstrap.css" />
@@ -1107,6 +1109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
