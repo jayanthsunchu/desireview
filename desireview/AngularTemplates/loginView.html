@@ -3,11 +3,11 @@
         <div class="col-sm-6">
             <div class="form-controls">
                 <form ng-submit="logIn()" name="loginform" novalidate>
-                    <input type="text" ng-model="existingUser.username"
+                    <input type="text" ng-model="existingUser.UserName"
                            required placeholder="User Name" class="form-control" />
                     <span class="error" ng-show="existingUser.username.$error.required">*</span>
                     <br />
-                    <input type="text" placeholder="Password" ng-model="existingUser.password" required class="form-control" />
+                    <input type="password" name="password" placeholder="Password" ng-model="existingUser.Password" required class="form-control" />
                     <span class="error"  ng-show="existingUser.password.$error.required">*</span><br />
                     <div class="checkbox">
                         <label>

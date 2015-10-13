@@ -71,16 +71,24 @@ if (!Array.prototype.filter) {
     };
 }
 
-module.controller('loginController',['$scope', function ($scope) {
+module.controller('loginController', ['$scope', 'loginService', '$cookies', '$location', function ($scope, loginService, $cookies, $location) {
     $scope.existingUser = {};
     $scope.newUser = {};
     $scope.rememberme = 'NO';
                            
     $scope.checkUserName = function () {
-        alert($scope.existingUser.username);
+        
     };
     $scope.logIn = function () {
-        alert($scope.rememberme);
+        loginService.validateUser($scope.existingUser).then(function () {
+            $cookies.put("UserName", loginService.validatedUser.UserName);
+            $location.path("/#");
+            window.location.reload();
+        }, function () {
+            //show error message
+        }).then(function () {
+          
+        });
     };
 
     $scope.registerUser = function () {
@@ -115,6 +123,28 @@ module.controller('reviewIndexController', ['$scope', 'dataService', '$routePara
 
     }
 }]);
+
+module.factory("loginService", function ($http, $q) {
+    var _validatedUser = {};
+    var _validateUser = function (existingUser) {
+        var deferred = $q.defer();
+       $http.post("api/users/validateexistinguser", existingUser)
+       .then(function (result) {
+           //alert(data.UserName);
+           angular.copy(result.data, _validatedUser);
+           deferred.resolve();
+       }, function () {
+           //alert(data);
+           angular.copy({ StatusCode: 401 }, _validatedUser);
+           deferred.reject();
+       });
+       return deferred.promise;
+    };
+    return {
+        validateUser: _validateUser,
+        validatedUser: _validatedUser
+    };
+});
 
 module.factory("dataService", function ($http, $q) {
     var _movies = [];

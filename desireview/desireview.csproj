@@ -227,7 +227,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AdminAuthorize.cs" />
     <Compile Include="Helpers\HelperClass.cs" />
+    <Compile Include="Helpers\PostReviewAuthorize.cs" />
     <Compile Include="Migrations\201508042202308_InitialCreate.cs" />
     <Compile Include="Migrations\201508042202308_InitialCreate.Designer.cs">
       <DependentUpon>201508042202308_InitialCreate.cs</DependentUpon>
@@ -1106,6 +1108,7 @@
     <Content Include="Views\LoginPage\PasswordResetLink.cshtml" />
     <Content Include="Views\MoviePageAdmin\Index.cshtml" />
     <Content Include="Views\ReviewPageAdmin\Index.cshtml" />
+    <Content Include="Views\MoviePageAdmin\NotAuthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

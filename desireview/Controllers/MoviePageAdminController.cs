@@ -1,4 +1,5 @@
 ﻿using desireview.Data;
+using desireview.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +15,10 @@ namespace desireview.Controllers
         // GET: MoviePageAdmin
         public ActionResult Index()
         {
+            return View();
+        }
+
+        public ActionResult NotAuthorized() {
             return View();
         }
         [HttpPost]

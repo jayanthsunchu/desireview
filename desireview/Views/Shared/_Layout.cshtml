@@ -17,11 +17,21 @@
                         <div class="col-sm-4 logo-image"><a href="#/"><img src="~/Images/logo.png" /></a></div>
                         <div class="col-sm-1"></div>
                         <div class="col-sm-2 userinfo">
-
                         </div>
                         <div class="col-sm-2 userinfo">
                         </div>
-                        <div class="col-sm-2 userinfo"><a href="#/loginorregister">Login/Register</a></div>
+                        
+                        <div class="col-sm-2 userinfo">
+                        @{ bool IsLoggedIn = HttpContext.Current.Request.Cookies["UserName"] != null;}
+                        @if (IsLoggedIn)
+                        {
+                            <a href="#/profile">My Profile</a>
+                        }
+                        else
+                        {
+                        <a href="#/loginorregister">Login/Register</a>
+                        }
+                        </div>
 
                         <div class="col-sm-1 userinfo">
                             <a href="#/contact">Contact</a>
