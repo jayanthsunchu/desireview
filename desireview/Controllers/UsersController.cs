@@ -16,20 +16,26 @@ namespace desireview.Controllers
         {
             _repo = repo;
         }
+        public class IsUser {
+            public IsUser(bool _flag) {
+                this.flag = _flag;
+            }
+            public bool flag { get; set; }
+        }
         [HttpGet]
-        public bool IsUsernameAvailable(string id)
+        public IsUser IsUsernameAvailable(string id)
         {
-            return _repo.IsUsernameAvailable(id);
+            return new IsUser(_repo.IsUsernameAvailable(id));
         }
 
         [HttpPost]
-        public User RegisterNewUser(User newUser)
+        public UserAccessToken RegisterNewUser(User newUser)
         {
             return _repo.RegisterNewUser(newUser);
         }
 
         [HttpPost]
-        public User ValidateExistingUser(User existingUser)
+        public UserAccessToken ValidateExistingUser(User existingUser)
         {
             return _repo.ValidateExistingUser(existingUser);
         }

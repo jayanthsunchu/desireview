@@ -16,9 +16,9 @@ namespace desireview.Data
 
         bool IsUsernameAvailable(string userName);
 
-        User RegisterNewUser(User newUser);
+        UserAccessToken RegisterNewUser(User newUser);
 
-        User ValidateExistingUser(User existingUser);
+        UserAccessToken ValidateExistingUser(User existingUser);
 
         bool SendPasswordResetLink(User existinguser);
 

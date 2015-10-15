@@ -35,6 +35,10 @@ textarea {
     display: inline-block;
 }
 
+.borderless thead > tr > th, .borderless tbody > tr > th, .borderless tfoot > tr > th, .borderless thead > tr > td, .borderless tbody > tr > td, .borderless tfoot > tr > td {
+    border: none;
+}
+
 .card {
     box-shadow: 0 1px 2px #aaa;
     background: white;
@@ -83,6 +87,20 @@ textarea {
     font-size: 20px;
     margin: 10px;
 }
+
+.center {
+    text-align: center;
+}
+
+.errorlabel {
+    color: red;
+    font-weight: normal;
+}
+
+.errorlabel:before {
+    content: "*";
+}
+
 
 .desi {
     unicode-bidi: bidi-override;

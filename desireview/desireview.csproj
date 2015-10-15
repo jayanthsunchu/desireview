@@ -224,6 +224,7 @@
     <Compile Include="Data\User.cs" />
     <Compile Include="Data\UserPasswordRequest.cs" />
     <Compile Include="Data\UserRating.cs" />
+    <Compile Include="Data\UserAccessToken.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -243,13 +244,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AngularJS\home-index.js" />
-    <Content Include="AngularJS\login-page.js" />
-    <Content Include="AngularJS\password-link-page.js" />
-    <Content Include="AngularJS\reset-page.js" />
-    <Content Include="AngularJS\review-page.js" />
     <Content Include="AngularTemplates\contactView.html" />
+    <Content Include="AngularTemplates\forgotView.html" />
     <Content Include="AngularTemplates\loginView.html" />
     <Content Include="AngularTemplates\movieView.html" />
+    <Content Include="AngularTemplates\profileView.html" />
+    <Content Include="AngularTemplates\resetView.html" />
     <Content Include="AngularTemplates\reviewView.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />

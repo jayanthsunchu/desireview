@@ -78,7 +78,7 @@ namespace desireview.Data
             return !(_ctx.Users.Where(x => x.UserName == userName).Count() > 0);
         }
 
-        public User ValidateExistingUser(User newUser)
+        public UserAccessToken ValidateExistingUser(User newUser)
         {
             try
             {
@@ -90,8 +90,25 @@ namespace desireview.Data
                     IsUserValidated = HelperClass.VerifyMd5Hash(md5Hash, newUser.Password + existingUser.UserGuid, existingUser.Password);
                 }
 
-                if (IsUserValidated)
-                    return existingUser;
+                if (IsUserValidated) {
+                    string token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+                    UserAccessToken newUserAccessToken = new UserAccessToken();
+                    newUserAccessToken.UserName = newUser.UserName;
+                    newUserAccessToken.AccessToken = token;
+                    newUserAccessToken.ExpirationDate = DateTime.Now.AddYears(1);
+                    _ctx.UserAccessTokens.Add(newUserAccessToken);
+                    if (_ctx.SaveChanges() > 0)
+                        return newUserAccessToken;
+                    else
+                    {
+                        var res = new HttpResponseMessage(HttpStatusCode.NotFound)
+                        {
+                            Content = new StringContent(string.Format("There was an error.")),
+                            ReasonPhrase = "There was an error"
+                        };
+                        throw new HttpResponseException(res);
+                    }
+                }
                 else
                 {
                     var res = new HttpResponseMessage(HttpStatusCode.NotFound)
@@ -113,7 +130,7 @@ namespace desireview.Data
             }
         }
 
-        public User RegisterNewUser(User newUser)
+        public UserAccessToken RegisterNewUser(User newUser)
         {
             using (MD5 md5Hash = MD5.Create())
             {
@@ -124,8 +141,25 @@ namespace desireview.Data
             try
             {
                 _ctx.Users.Add(newUser);
-                if (_ctx.SaveChanges() > 0)
-                    return newUser;
+                if (_ctx.SaveChanges() > 0) {
+                    string token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+                    UserAccessToken newUserAccessToken = new UserAccessToken();
+                    newUserAccessToken.UserName = newUser.UserName;
+                    newUserAccessToken.AccessToken = token;
+                    newUserAccessToken.ExpirationDate = DateTime.Now.AddYears(1);
+                    _ctx.UserAccessTokens.Add(newUserAccessToken);
+                    if (_ctx.SaveChanges() > 0)
+                        return newUserAccessToken;
+                    else
+                    {
+                        var res = new HttpResponseMessage(HttpStatusCode.NotFound)
+                        {
+                            Content = new StringContent(string.Format("There was an error.")),
+                            ReasonPhrase = "There was an error"
+                        };
+                        throw new HttpResponseException(res);
+                    }
+                }
                 else
                     throw new HttpResponseException(System.Net.HttpStatusCode.BadRequest);
             }

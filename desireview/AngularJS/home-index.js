@@ -75,29 +75,141 @@ module.controller('loginController', ['$scope', 'loginService', '$cookies', '$lo
     $scope.existingUser = {};
     $scope.newUser = {};
     $scope.rememberme = 'NO';
-                           
+    $scope.showerror = false;
+    $scope.loginServiceResponse = loginService;
+    $scope.ConfirmPassword = "";
+    $scope.changepasswordflag = false;
+    $scope.compareToPassword = function () {
+        if ($scope.ConfirmPassword != $scope.newUser.Password)
+            $scope.changepasswordflag = true;
+        else
+            $scope.changepasswordflag = false;
+    };
+    $scope.registerUser = function () {
+        loginService.registerUser($scope.newUser).then(function () {
+            $cookies.put("UserName", loginService.validatedUser.UserName);
+            $cookies.put("AccessToken", loginService.validatedUser.AccessToken);
+            $location.path("/#");
+            ToggleLogin(false);
+            ToggleLogout(true);
+        },
+        function () { });
+    };
     $scope.checkUserName = function () {
-        
+        loginService.IsUserNameAvailable($scope.newUser.UserName).then(function () {
+        }, function () { });
     };
     $scope.logIn = function () {
         loginService.validateUser($scope.existingUser).then(function () {
             $cookies.put("UserName", loginService.validatedUser.UserName);
+            $cookies.put("AccessToken", loginService.validatedUser.AccessToken);
             $location.path("/#");
-            window.location.reload();
+            ToggleLogin(false);
+            ToggleLogout(true);
         }, function () {
+            $scope.showerror = true;
             //show error message
         }).then(function () {
-          
+
         });
-    };
-
-    $scope.registerUser = function () {
-
     };
 }]);
 
 module.controller('contactController', function () {
 });
+
+module.controller('resetController', [ '$scope', 'loginService', '$routeParams', function ($scope,loginService, $routeParams) {
+    $scope.ConfirmPassword = "";
+    $scope.changePasswordObject = {};
+    $scope.showflag = false;
+    $scope.changePasswordObject.Token = $routeParams.userToken;
+    //console.log($routeParams.userToken);
+    $scope.compare = function () {
+        if ($scope.ConfirmPassword != $scope.changePasswordObject.Password)
+            $scope.showflag = true;
+        else
+            $scope.showflag = false;
+    };
+
+    $scope.changePassword = function () {
+
+    };
+}]);
+
+module.controller('profileController', ['$scope', '$cookies', function ($scope, $cookies) {
+    $scope.UserName = "No user logged in.";
+    if ($cookies.get("UserName") != null)
+        $scope.UserName = $cookies.get("UserName");
+}]);
+
+module.controller('forgotController', ['$scope', 'loginService', function ($scope, loginService) {
+    $scope.emailObject = {};
+    $scope.successflag = false;
+    $scope.sendResetLink = function () {
+        //console.log($scope.emailObject.Email);
+        loginService.resetPasswordLink($scope.emailObject).then(function () {
+            $scope.emailObject.Email = "";
+            $scope.successflag = true;
+        }, function () {
+            $scope.successflag = false;
+        });
+    };
+
+}]);
+
+
+function RemoveCookies() {
+    delete_cookie("UserName");
+    delete_cookie("AccessToken");
+    ToggleLogout(false);
+    ToggleLogin(true);
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+}
+
+$(document).ready(function () {
+    if (getCookie("UserName") == "") {
+        ToggleLogin(true);
+        ToggleLogout(false);
+    }
+    else {
+        ToggleLogin(false);
+        ToggleLogout(true);
+    }
+});
+
+function ToggleLogin(flag) {
+    if (flag) {
+        $("#logInLink").show();
+        $("#myProfileLink").hide();
+    }
+    else {
+        $("#logInLink").hide();
+        $("#myProfileLink").show();
+    }
+}
+
+function ToggleLogout(flag) {
+    if (flag) {
+        $("#logOutLink").show();
+    }
+    else {
+        $("#logOutLink").hide();
+    }
+}
+
+function delete_cookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
 
 module.controller('reviewIndexController', ['$scope', 'dataService', '$routeParams', '$cookies', function ($scope, dataService, $routeParams, $cookies) {
     $scope.name = "Review Page";
@@ -126,23 +238,77 @@ module.controller('reviewIndexController', ['$scope', 'dataService', '$routePara
 
 module.factory("loginService", function ($http, $q) {
     var _validatedUser = {};
+    var _userNameAvailable = { "flag": true };
+    var _updatePassword = function (changedPassword) {
+        var deferred = $q.defer();
+        $http.post("/api/users/updatepassword", changedPassword).then(function () {
+            //success
+            deferred.resolve();
+        }, function () {
+            //failure
+            deferred.reject();
+        });
+        return deferred.promise;
+
+    };
+    var _resetPasswordLink = function (email) {
+        var deferred = $q.defer();
+        $http.post("/api/users/sendpasswordresetlink",
+            email).
+            then(function (result) {
+                deferred.resolve();
+            },
+            function () {
+                deferred.reject();
+            });
+        return deferred.promise;
+    };
+    var _IsUserNameAvailable = function (username) {
+        var deferred = $q.defer();
+        $http.get("api/users/isusernameavailable?id=" + username).then(
+            function (result) {
+                angular.copy(result.data, _userNameAvailable);
+                deferred.resolve();
+            }, function () {
+                deferred.reject();
+            });
+        return deferred.promise;
+    };
+
+    var _registerUser = function (newUser) {
+        var deferred = $q.defer();
+        $http.post("api/users/registernewuser", newUser).then(function (result) {
+            angular.copy(result.data, _validatedUser);
+            deferred.resolve();
+        }
+        , function () {
+            deferred.reject();
+        });
+        return deferred.promise;
+    };
     var _validateUser = function (existingUser) {
         var deferred = $q.defer();
-       $http.post("api/users/validateexistinguser", existingUser)
-       .then(function (result) {
-           //alert(data.UserName);
-           angular.copy(result.data, _validatedUser);
-           deferred.resolve();
-       }, function () {
-           //alert(data);
-           angular.copy({ StatusCode: 401 }, _validatedUser);
-           deferred.reject();
-       });
-       return deferred.promise;
+        $http.post("api/users/validateexistinguser", existingUser)
+        .then(function (result) {
+            //alert(data.UserName);
+            angular.copy(result.data, _validatedUser);
+            deferred.resolve();
+        }, function () {
+            //alert(data);
+            angular.copy({ StatusCode: 401 }, _validatedUser);
+            deferred.reject();
+        });
+        return deferred.promise;
     };
     return {
         validateUser: _validateUser,
-        validatedUser: _validatedUser
+        validatedUser: _validatedUser,
+        userNameAvailable: _userNameAvailable,
+        IsUserNameAvailable: _IsUserNameAvailable,
+        registerUser: _registerUser,
+        resetPasswordLink: _resetPasswordLink,
+        updatePassword: _updatePassword
+
     };
 });
 
@@ -213,6 +379,18 @@ module.config(function ($routeProvider) {
         controller: "contactController",
         templateUrl: "/AngularTemplates/contactView.html"
     })
+    .when("/profile", {
+        controller: "profileController",
+        templateUrl: "/AngularTemplates/profileView.html"
+    })
+        .when("/forgotpassword", {
+            controller: "forgotController",
+            templateUrl: "/AngularTemplates/forgotView.html"
+        })
+        .when("/resetpasswordlink/:userToken", {
+            controller: "resetController",
+            templateUrl: "/AngularTemplates/resetView.html"
+        })
     .otherwise({ redirectTo: "/" });
 });
 

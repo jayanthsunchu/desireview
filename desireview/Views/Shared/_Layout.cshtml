@@ -18,26 +18,26 @@
                         <div class="col-sm-1"></div>
                         <div class="col-sm-2 userinfo">
                         </div>
-                        <div class="col-sm-2 userinfo">
-                        </div>
-                        
-                        <div class="col-sm-2 userinfo">
-                        @{ bool IsLoggedIn = HttpContext.Current.Request.Cookies["UserName"] != null;}
-                        @if (IsLoggedIn)
-                        {
-                            <a href="#/profile">My Profile</a>
-                        }
-                        else
-                        {
-                        <a href="#/loginorregister">Login/Register</a>
-                        }
+                        <div class="col-sm-1 userinfo">
                         </div>
 
-                        <div class="col-sm-1 userinfo">
-                            <a href="#/contact">Contact</a>
+                        <div class="col-sm-4 userinfo">
+                            <table class="table borderless">
+                                <tr>
+                                    <td>
+                                        <a href="#/profile" id="myProfileLink">My Profile</a>
+                                        <a href="#/loginorregister" id="logInLink">Login/Register</a>
+                                    </td>
+                                    <td>
+                                        <a href="#/contact">Contact</a>
+                                    </td>
+                                    <td>
+                                        <a href="#/" id="logOutLink" onclick="RemoveCookies();">Log Out</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -46,7 +46,6 @@
 
         </div>
     </div>
-
     <footer class="desi-footer">
         <div class="container">
             <div class="row">
@@ -55,7 +54,6 @@
             </div>
         </div>
     </footer>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/angular")
     @Scripts.Render("~/bundles/bootstrap")
