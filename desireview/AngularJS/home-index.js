@@ -118,7 +118,7 @@ module.controller('loginController', ['$scope', 'loginService', '$cookies', '$lo
 module.controller('contactController', function () {
 });
 
-module.controller('resetController', [ '$scope', 'loginService', '$routeParams', function ($scope,loginService, $routeParams) {
+module.controller('resetController', ['$scope', 'loginService', '$routeParams', '$location', function ($scope, loginService, $routeParams, $location) {
     $scope.ConfirmPassword = "";
     $scope.changePasswordObject = {};
     $scope.showflag = false;
@@ -132,7 +132,11 @@ module.controller('resetController', [ '$scope', 'loginService', '$routeParams',
     };
 
     $scope.changePassword = function () {
-
+        loginService.updatePassword($scope.changePasswordObject).then(function () {
+            $location.path("/#/loginorregister");
+        }, function () {
+            alert("Your reset link expired.");
+        }).then(function(){});
     };
 }]);
 
@@ -241,7 +245,7 @@ module.factory("loginService", function ($http, $q) {
     var _userNameAvailable = { "flag": true };
     var _updatePassword = function (changedPassword) {
         var deferred = $q.defer();
-        $http.post("/api/users/updatepassword", changedPassword).then(function () {
+        $http.post("/api/users/updatepassword", changedPassword).then(function (result) {
             //success
             deferred.resolve();
         }, function () {

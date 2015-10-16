@@ -168,10 +168,11 @@ namespace desireview.Data
 
         public bool UpdatePassword(PasswordUpdate newPassword) {
             try {
-                UserPasswordRequest userRequest = _ctx.UserPasswordRequests.Where(x => x.PasswordToken == newPassword.Token).Single();
+                var userRequest = _ctx.UserPasswordRequests.Where(x => x.PasswordToken == newPassword.Token).Single();
                 if(userRequest != null)
                 {
-                    if (DateTime.Compare(DateTime.Now, userRequest.ExpirationDate) > 0) {
+                    if (DateTime.Compare(DateTime.Now, userRequest.ExpirationDate) <= 0) {
+                        
                         var updateP = _ctx.Users.SingleOrDefault(x => x.UserName == userRequest.UserName);
                         if(updateP != null)
                         {
@@ -179,9 +180,11 @@ namespace desireview.Data
                             {
                                 updateP.Password = HelperClass.GetMd5Hash(md5Hash, newPassword.Password + updateP.UserGuid.ToString());
                             }
-
-                            if (_ctx.SaveChanges() > 0)
+                            userRequest.ExpirationDate = DateTime.Now.AddDays(-1);
+                            if (_ctx.SaveChanges() > 0) {
                                 return true;
+
+                            }
                             else
                             {
                                 var res = new HttpResponseMessage(HttpStatusCode.BadRequest)
@@ -203,7 +206,7 @@ namespace desireview.Data
                         }
                     }
                     else {
-                        var res = new HttpResponseMessage(HttpStatusCode.BadRequest)
+                        var res = new HttpResponseMessage(HttpStatusCode.RequestTimeout)
                         {
                             Content = new StringContent(string.Format("Something went wrong. Timeout.")),
                             ReasonPhrase = "Something went wrong. Timeout."
