@@ -15,11 +15,12 @@ namespace desireview.Controllers
         {
             return View();
         }
-
+        public IDesiReviewRepository desi;
         [HttpPost]
         public ActionResult Index(Review model) {
             try
             {
+                desi.AddReview(model);
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri("http://localhost:59545");

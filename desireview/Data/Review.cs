@@ -19,6 +19,5 @@ namespace desireview.Data
         public decimal ReviewRating { get; set; }
         public int MovieId { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
     }
 }
