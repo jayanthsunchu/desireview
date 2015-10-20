@@ -21,11 +21,7 @@ namespace desireview.Controllers
             try
             {
                 desi.AddReview(model);
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri("http://localhost:59545");
-                    var result = client.PostAsJsonAsync("/api/reviews/addreview", model).Result;
-                }
+               
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

@@ -15,6 +15,7 @@ namespace desireview.Controllers
 {
     public class MoviePageAdminController : Controller
     {
+        public IDesiReviewRepository _repo;
         // GET: MoviePageAdmin
         public ActionResult Index()
         {
@@ -57,11 +58,7 @@ namespace desireview.Controllers
                     blockBlob.UploadFromStream(fileStream);
                 }
                 movieToAdd.ImageName = blockBlob.Uri.AbsoluteUri;
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri("http://localhost:59545");
-                    var result = client.PostAsJsonAsync("/api/movies/addmovie", movieToAdd).Result;
-                }
+                _repo.AddMovie(movieToAdd);
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
