@@ -16,6 +16,10 @@ namespace desireview.Controllers
     public class MoviePageAdminController : Controller
     {
         public IDesiReviewRepository _repo;
+
+        public MoviePageAdminController(IDesiReviewRepository repo) {
+            this._repo = repo;
+        }
         // GET: MoviePageAdmin
         public ActionResult Index()
         {

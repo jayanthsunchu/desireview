@@ -10,6 +10,9 @@ namespace desireview.Controllers
 {
     public class ReviewPageAdminController : Controller
     {
+        public ReviewPageAdminController(IDesiReviewRepository repo) {
+            this.desi = repo;
+        }
         // GET: ReviewPageAdmin
         public ActionResult Index()
         {
