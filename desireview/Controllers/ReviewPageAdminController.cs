@@ -16,7 +16,9 @@ namespace desireview.Controllers
         // GET: ReviewPageAdmin
         public ActionResult Index()
         {
-            return View();
+            Review model = new Review();
+            model.ExistingMovies = desi.GetMovieDropdown();
+            return View(model);
         }
         public IDesiReviewRepository desi;
         [HttpPost]

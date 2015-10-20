@@ -10,12 +10,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Mvc;
 
 namespace desireview.Data
 {
     class DesiReviewRepository : IDesiReviewRepository
     {
         DesiReviewContext _ctx;
+
+        public IEnumerable<SelectListItem> GetMovieDropdown() {
+            return _ctx.Movies.Select(x =>
+                        new SelectListItem
+                        {
+                            Value = x.Id.ToString(),
+                            Text = x.Title
+                        });
+        }
 
         public Review GetReviewById(int movieId)
         {
