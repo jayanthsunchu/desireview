@@ -5,6 +5,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,67 @@ namespace desireview.Data
     class DesiReviewRepository : IDesiReviewRepository
     {
         DesiReviewContext _ctx;
+
+        public void SubmitContact(Contact contact) {
+            try {
+                _ctx.Contacts.Add(contact);
+                _ctx.SaveChanges();
+            }
+            catch (DbUpdateException) { }
+        }
+
+        public IQueryable<Contact> GetContacts() {
+            return _ctx.Contacts.ToList().AsQueryable();
+        }
+
+        public UserRating AddUserRating(UserRating rating) {
+            try
+            {
+                if (validateUserToken(rating.UserName, rating.UserAccessToken)) {
+                    rating.UserId = _ctx.Users.Where(x => x.UserName == rating.UserName).Single().Id;
+                    if (_ctx.UserRatings.Where(x => (x.UserId == rating.UserId && x.MovieId == rating.MovieId)).Count() > 0)
+                    {
+                        var itemToUpdate = _ctx.UserRatings.Where(x => (x.UserId == rating.UserId && x.MovieId == rating.MovieId)).Single();
+                        itemToUpdate.Rating = rating.Rating;
+                    }
+                    else
+                    _ctx.UserRatings.Add(rating);
+                    if (_ctx.SaveChanges() > 0)
+                        return rating;
+                    else
+                    {
+                        var res = new HttpResponseMessage(HttpStatusCode.NotFound)
+                        {
+                            Content = new StringContent(string.Format("There was an error adding the rating.")),
+                            ReasonPhrase = "There was an error adding the rating."
+                        };
+                        throw new HttpResponseException(res);
+                    }
+                }
+                else {
+                    var res = new HttpResponseMessage(HttpStatusCode.NotFound)
+                        {
+                            Content = new StringContent(string.Format("User not validated.")),
+                            ReasonPhrase = "User not validated."
+                    };
+                        throw new HttpResponseException(res);
+                }
+                
+            }
+            catch (DbUpdateException) {
+                var res = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("There was an error adding the rating.")),
+                    ReasonPhrase = "There was an error adding the rating."
+                };
+                throw new HttpResponseException(res);
+            }
+        }
+
+        private bool validateUserToken(string UserName, string UserAccessToken) {
+            var expirationDate = _ctx.UserAccessTokens.Where(x => (x.UserName == UserName && x.AccessToken == UserAccessToken)).Single().ExpirationDate;
+            return expirationDate >= DateTime.Now;
+        }
 
         public IEnumerable<SelectListItem> GetMovieDropdown() {
             return _ctx.Movies.Select(x =>
@@ -65,9 +127,25 @@ namespace desireview.Data
             return Language.ToLower() != "all" ?_ctx.Movies.Where(x => x.MovieLanguage.ToLower() == Language.ToLower()).OrderByDescending(x => x.ReleaseDate)
                 : _ctx.Movies.OrderByDescending(x => x.ReleaseDate);
         }
-        public IQueryable<Movie> GetMovies()
+        public IQueryable<Movie> GetMovies(UserAccessToken user)
         {
-            return _ctx.Movies.OrderByDescending(x => x.ReleaseDate);
+            var result = _ctx.Movies.OrderByDescending(x => x.ReleaseDate).Take(10);
+            
+            if (user.UserName != null && user.UserName != "") {
+                foreach (var item in result)
+                {
+                    int userId = _ctx.Users.Where(x => x.UserName == user.UserName).Single().Id;
+                    if (_ctx.UserRatings.Where(x => (x.UserId == userId && x.MovieId == item.Id)).Count() > 0) {
+                        var userRating = _ctx.UserRatings.Where(x => (x.UserId == userId && x.MovieId == item.Id)).Single();
+                        if (userRating != null)
+                        {
+                            item.UserRating = userRating.Rating;
+                        }
+                    }
+                    
+                }
+            }
+            return result;
         }
 
         public bool AddMovie(Movie movieToAdd)

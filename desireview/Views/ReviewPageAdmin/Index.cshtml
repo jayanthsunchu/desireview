@@ -3,9 +3,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <form action="" method="post" enctype="multipart/form-data">
-    <div class="form-controls">
+    <div>
         @Html.DropDownListFor(x => x.MovieId, Model.ExistingMovies)
-        @Html.TextAreaFor(x => x.ReviewContent, new { @placeholder = "Review Content", @class = "form-control" })
+        @Html.TextAreaFor(x => x.ReviewContent, new { @placeholder = "Review Content", @class = "form-control", @style ="height: 300px" })
         @Html.TextBoxFor(x => x.ReviewedDate, new { @placeholder = "Reviewed Date", @class = "form-control" })
         @Html.TextBoxFor(x => x.ReviewTitle, new { @placeholder = "Review Title", @class = "form-control" })
         <button type="submit" class="btn btn-success">Add Review</button>

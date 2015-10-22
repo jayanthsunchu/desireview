@@ -28,5 +28,8 @@ namespace desireview.Data
         public string MovieLanguage { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
+
+        [NotMapped]
+        public decimal UserRating { get; set; }
     }
 }

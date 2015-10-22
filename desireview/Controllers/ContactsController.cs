@@ -10,16 +10,22 @@ using System.Web.Http.Cors;
 namespace desireview.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class UserRatingsController : ApiController
+    public class ContactsController : ApiController
     {
         private IDesiReviewRepository _repo;
-        public UserRatingsController(IDesiReviewRepository repo)
+        public ContactsController(IDesiReviewRepository repo)
         {
             _repo = repo;
         }
+
+        [HttpGet]
+        public IEnumerable<Contact> GetInfo() {
+            return _repo.GetContacts();
+        }
+
         [HttpPost]
-        public UserRating AddUserRating(UserRating rating) {
-            return _repo.AddUserRating(rating);
+        public void SubmitContact(Contact c) {
+            _repo.SubmitContact(c);
         }
     }
 }

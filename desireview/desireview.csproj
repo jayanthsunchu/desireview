@@ -253,12 +253,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\MoviePageAdminController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\ReviewPageAdminController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Controllers\UserRatingsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Data\Contact.cs" />
     <Compile Include="Data\DesiReviewContext.cs" />
     <Compile Include="Data\DesiReviewRepository.cs" />
     <Compile Include="Data\IDesiReviewRepository.cs" />

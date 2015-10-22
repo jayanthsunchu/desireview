@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -16,9 +17,9 @@ namespace desireview.Controllers
         public MoviesController(IDesiReviewRepository repo) {
             _repo = repo;
         }
-        [HttpGet]
-        public IEnumerable<Movie> Get() {
-            return _repo.GetMovies();
+        [HttpPost]
+        public IEnumerable<Movie> Get(UserAccessToken user) {
+            return _repo.GetMovies(user);
         }
 
         [HttpGet]

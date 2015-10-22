@@ -23,6 +23,12 @@ namespace desireview.Data
         public string VideoReviewDislikeCount { get; set; }
 
         public string VideoReviewThumb { get; set; }
+        [NotMapped]
+        public string UserName { get; set; }
+        [NotMapped]
+        public string MovieTitle { get; set; }
+        [NotMapped]
+        public string UserAccessToken { get; set; }
 
 
 

@@ -11,7 +11,6 @@ namespace desireview.Data
     {
 
         public DesiReviewContext() : base("DefaultConnection") {
-             
         }
 
         public DbSet<Movie> Movies { get; set; }
@@ -24,5 +23,7 @@ namespace desireview.Data
         public DbSet<UserPasswordRequest> UserPasswordRequests { get; set; }
 
         public DbSet<UserRating> UserRatings { get; set; }
+
+        public DbSet<Contact> Contacts { get; set; }
     }
 }

@@ -9,10 +9,13 @@ namespace desireview.Data
 {
     public interface IDesiReviewRepository
     {
+        void SubmitContact(Contact contact);
+        IQueryable<Contact> GetContacts();
+        UserRating AddUserRating(UserRating rating);
         Review GetReviewById(int movieId);
         IEnumerable<SelectListItem> GetMovieDropdown();
         bool AddReview(Review review);
-        IQueryable<Movie> GetMovies();
+        IQueryable<Movie> GetMovies(UserAccessToken userName);
 
         IQueryable<Movie> GetMoviesByLanguage(string Language);
 
