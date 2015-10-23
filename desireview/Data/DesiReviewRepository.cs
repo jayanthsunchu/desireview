@@ -109,6 +109,12 @@ namespace desireview.Data
         {
             try
             {
+                if (_ctx.Reviews.Where(x => x.MovieId == review.MovieId).Count() > 0)
+                {
+                    var reviewToUpdate = _ctx.Reviews.Where(x => x.MovieId == review.MovieId).Single();
+                    reviewToUpdate = review;
+                }
+                else
                 _ctx.Reviews.Add(review);
                 return _ctx.SaveChanges() > 0;
             }
