@@ -35,16 +35,23 @@ namespace desireview.Data
             try
             {
                 if (validateUserToken(rating.UserName, rating.UserAccessToken)) {
-                    rating.UserId = _ctx.Users.Where(x => x.UserName == rating.UserName).Single().Id;
+                    rating.UserId = _ctx.Users.Single(x => x.UserName == rating.UserName).Id;
                     if (_ctx.UserRatings.Where(x => (x.UserId == rating.UserId && x.MovieId == rating.MovieId)).Count() > 0)
                     {
-                        var itemToUpdate = _ctx.UserRatings.Where(x => (x.UserId == rating.UserId && x.MovieId == rating.MovieId)).Single();
+                        var itemToUpdate = _ctx.UserRatings.Single(x => (x.UserId == rating.UserId && x.MovieId == rating.MovieId));
                         itemToUpdate.Rating = rating.Rating;
+                        if (rating.VideoReviewThumb != null && rating.VideoReviewUrl != null)
+                        {
+                            itemToUpdate.VideoReviewUrl = rating.VideoReviewUrl;
+                            itemToUpdate.VideoReviewThumb = rating.VideoReviewThumb;
+                        }
                     }
                     else
                     _ctx.UserRatings.Add(rating);
-                    if (_ctx.SaveChanges() > 0)
+                    if (_ctx.SaveChanges() > 0) {
+                        UpdateAverageRating(rating.MovieId);
                         return rating;
+                    }
                     else
                     {
                         var res = new HttpResponseMessage(HttpStatusCode.NotFound)
@@ -76,7 +83,7 @@ namespace desireview.Data
         }
 
         private bool validateUserToken(string UserName, string UserAccessToken) {
-            var expirationDate = _ctx.UserAccessTokens.Where(x => (x.UserName == UserName && x.AccessToken == UserAccessToken)).Single().ExpirationDate;
+            var expirationDate = _ctx.UserAccessTokens.Single(x => (x.UserName == UserName && x.AccessToken == UserAccessToken)).ExpirationDate;
             return expirationDate >= DateTime.Now;
         }
 
@@ -89,11 +96,28 @@ namespace desireview.Data
                         });
         }
 
+        private void UpdateAverageRating(int MovieId) {
+            try
+            {
+                decimal AverageRating = _ctx.UserRatings.Where(x => x.MovieId == MovieId).Sum(x => x.Rating) / _ctx.UserRatings.Where(x => x.MovieId == MovieId).Count();
+                var itemToUpdate = _ctx.Movies.Single(x => x.Id == MovieId);
+                itemToUpdate.AverageRating = AverageRating;
+
+                _ctx.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+
+            }
+            catch (InvalidOperationException) { }
+
+        }
+
         public Review GetReviewById(int movieId)
         {
             try
             {
-                return _ctx.Reviews.Where(x => x.MovieId == movieId).Single();
+                return _ctx.Reviews.Single(x => x.MovieId == movieId);
             }
             catch (InvalidOperationException)
             {
@@ -111,7 +135,7 @@ namespace desireview.Data
             {
                 if (_ctx.Reviews.Where(x => x.MovieId == review.MovieId).Count() > 0)
                 {
-                    var reviewToUpdate = _ctx.Reviews.Where(x => x.MovieId == review.MovieId).Single();
+                    var reviewToUpdate = _ctx.Reviews.Single(x => x.MovieId == review.MovieId);
                     reviewToUpdate.ReviewContent = review.ReviewContent;
                 }
                 else
@@ -140,9 +164,9 @@ namespace desireview.Data
             if (user.UserName != null && user.UserName != "") {
                 foreach (var item in result)
                 {
-                    int userId = _ctx.Users.Where(x => x.UserName == user.UserName).Single().Id;
+                    int userId = _ctx.Users.Single(x => x.UserName == user.UserName).Id;
                     if (_ctx.UserRatings.Where(x => (x.UserId == userId && x.MovieId == item.Id)).Count() > 0) {
-                        var userRating = _ctx.UserRatings.Where(x => (x.UserId == userId && x.MovieId == item.Id)).Single();
+                        var userRating = _ctx.UserRatings.Single(x => (x.UserId == userId && x.MovieId == item.Id));
                         if (userRating != null)
                         {
                             item.UserRating = userRating.Rating;
@@ -178,7 +202,7 @@ namespace desireview.Data
             {
                 bool IsUserValidated = false;
 
-                User existingUser = _ctx.Users.Where(x => x.UserName == newUser.UserName).Single();
+                User existingUser = _ctx.Users.Single(x => x.UserName == newUser.UserName);
                 using (MD5 md5Hash = MD5.Create())
                 {
                     IsUserValidated = HelperClass.VerifyMd5Hash(md5Hash, newUser.Password + existingUser.UserGuid, existingUser.Password);
@@ -262,12 +286,12 @@ namespace desireview.Data
 
         public bool UpdatePassword(PasswordUpdate newPassword) {
             try {
-                var userRequest = _ctx.UserPasswordRequests.Where(x => x.PasswordToken == newPassword.Token).Single();
+                var userRequest = _ctx.UserPasswordRequests.Single(x => x.PasswordToken == newPassword.Token);
                 if(userRequest != null)
                 {
                     if (DateTime.Compare(DateTime.Now, userRequest.ExpirationDate) <= 0) {
                         
-                        var updateP = _ctx.Users.SingleOrDefault(x => x.UserName == userRequest.UserName);
+                        var updateP = _ctx.Users.Single(x => x.UserName == userRequest.UserName);
                         if(updateP != null)
                         {
                             using (MD5 md5Hash = MD5.Create())
@@ -340,7 +364,7 @@ namespace desireview.Data
         public bool SendPasswordResetLink(User existinguser)
         {
             try {
-                User checkUser = _ctx.Users.Where(x => x.Email == existinguser.Email).Single();
+                User checkUser = _ctx.Users.Single(x => x.Email == existinguser.Email);
                 if (checkUser != null)
                 {
                     byte[] token = new byte[10];
