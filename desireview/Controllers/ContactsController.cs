@@ -9,7 +9,7 @@ using System.Web.Http.Cors;
 
 namespace desireview.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://firstshowresponse.com", headers: "*", methods: "*")]
     public class ContactsController : ApiController
     {
         private IDesiReviewRepository _repo;
