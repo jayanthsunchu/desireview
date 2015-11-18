@@ -34,11 +34,13 @@ namespace desireview.Data
         public UserRating AddUserRating(UserRating rating) {
             try
             {
+                //Testing GitHub
                 if (validateUserToken(rating.UserName, rating.UserAccessToken)) {
                     rating.UserId = _ctx.Users.Single(x => x.UserName == rating.UserName).Id;
                     if (_ctx.UserRatings.Where(x => (x.UserId == rating.UserId && x.MovieId == rating.MovieId)).Count() > 0)
                     {
                         var itemToUpdate = _ctx.UserRatings.Single(x => (x.UserId == rating.UserId && x.MovieId == rating.MovieId));
+                        
                         itemToUpdate.Rating = rating.Rating;
                         if (rating.VideoReviewThumb != null && rating.VideoReviewUrl != null)
                         {
