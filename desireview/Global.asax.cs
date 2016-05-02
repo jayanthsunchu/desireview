@@ -13,6 +13,7 @@ namespace desireview
     {
         protected void Application_Start()
         {
+            //Testing
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
